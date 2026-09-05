@@ -19,16 +19,16 @@ updated: 2026-09-06
 | 写什么 / 不能写什么（安全、可写范围、协作） | `rules/boundaries.md` |
 | 怎么写（现代小说、生活气息、禁止的段落风、去形容词化） | `rules/style.md` |
 | 用哪个词（硬禁、分档、自检） | `rules/wording.md` |
-| 流程：提示词 → 节拍审核 → 正文 | `rules/sop-1.md` |
+| 流程：提示词 → 直接写中文正文 | `rules/sop-1.md` |
 | 流程：节拍 → 英文草稿 → 翻译入正文 | `rules/sop-2.md`（仅 SOP 2：A = 本助手写英文；B = Gemini 译入正文。SOP 1 不启用 B） |
-| 当前节写什么 | 该故事下 `beats.md` |
-| 下一节节拍灵感 | 该故事下 `inspiration.md` |
+| 当前节写什么（若使用） | 该故事下 `beats.md` |
+| 下一节节拍灵感（若使用） | 该故事下 `inspiration.md` |
 | 背景、人物、已有走向 | 该故事下 `worldview.md` |
 | 成稿 | 该故事下 `chapters/chxx.md` |
 | 组句（若已放入） | 句式文档 |
 | Gemini 尺度试写提示词 | `trials/prompts/0x-*.md`（产出在 `trials/outputs/`） |
 
-**不维护** `taboos.md` / 雷区。路数与是否展开某玩法由节拍决定；临时加禁写在当次 `beats.md`（只做加法，不能解除 `rules/wording.md` 硬禁）。
+**不维护** `taboos.md` / 雷区。路数与是否展开某玩法由提示词/节拍决定；临时加禁只做加法，不能解除 `rules/wording.md` 硬禁。
 
 ## 全局注意
 
@@ -53,8 +53,8 @@ characters/
   <romanized>/
     <story>/                    # 多主角：最多 3 个 romanized 名用 _ 拼接，挂在排序第一的人物下
       worldview.md
-      beats.md
-      inspiration.md
+      beats.md                  # 可选（SOP 1 已默认直写正文）
+      inspiration.md            # 可选
       chapters/
         ch01.md                 # 一章一文件；默认不分 SEC，章内连续推进
         ch02.md
@@ -64,16 +64,16 @@ characters/
 
 ### 写作默认
 
-- 维护重心：**正文、当前节拍、下一节灵感**；世界观一份文档含背景、人物、已有走向
+- 维护重心：**正文、世界观**（worldview 一份文档含背景、人物、已有走向）
 - 无人物级跨故事 `profile`；人设写在该故事 `worldview.md`
-- 提示词 / 节拍给到哪，就写到哪；不擅自补玩法、人物、转折
+- 提示词给到哪，就写到哪；不擅自补玩法、人物、转折
 - 选用 `sop-1` 或 `sop-2` 由当次指定；未指定时先问或只做你点名的步骤
 
 ### 对话纪律（全局）
 
 - **除非用户明确要求**，对话中 **不要粘贴** 节拍原文、正文原文，或 SOP 2 的大段英文草稿
-- 只汇报已完成项与待用户审核/下一步；请用户打开对应文件查看
-- 未同意节拍前不写正文（见 `rules/sop-1.md`）
+- 只汇报已完成项；请用户打开对应文件查看
+
 
 ### 安全与文风（摘要，细则见专文）
 
