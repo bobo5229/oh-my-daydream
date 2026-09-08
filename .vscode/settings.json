@@ -1,0 +1,14 @@
+{
+    // Markdown 预览器 (Preview) 字体配置
+    "markdown.preview.fontFamily": "'Georgia', 'Charter', 'Source Han Serif SC', 'Noto Serif CJK SC', 'SimSun', serif",
+    "markdown.preview.fontSize": 16,
+    "markdown.preview.lineHeight": 1.8,
+
+    // Markdown 文本编辑器 (Editor) 语言级字体配置（切换到源码编辑时同样生效）
+    "[markdown]": {
+        "editor.fontFamily": "'Georgia', 'Charter', 'Source Han Serif SC', 'Noto Serif CJK SC', 'SimSun', serif",
+        "editor.fontSize": 16,
+        "editor.lineHeight": 1.8,
+        "editor.wordWrap": "on"
+    }
+}

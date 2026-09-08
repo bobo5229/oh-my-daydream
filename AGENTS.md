@@ -21,12 +21,12 @@ updated: 2026-09-06
 | 用哪个词（硬禁、分档、自检） | `rules/wording.md` |
 | 流程：提示词 → 直接写中文正文 | `rules/sop-1.md` |
 | 流程：节拍 → 英文草稿 → 翻译入正文 | `rules/sop-2.md`（仅 SOP 2：A = 本助手写英文；B = Gemini 译入正文。SOP 1 不启用 B） |
+| 汉字字数统计 | `scripts/count-chars.ps1` |
 | 当前节写什么（若使用） | 该故事下 `beats.md` |
 | 下一节节拍灵感（若使用） | 该故事下 `inspiration.md` |
 | 背景、人物、已有走向 | 该故事下 `worldview.md` |
 | 成稿 | 该故事下 `chapters/chxx.md` |
 | 组句（若已放入） | 句式文档 |
-| Gemini 尺度试写提示词 | `trials/prompts/0x-*.md`（产出在 `trials/outputs/`） |
 
 **不维护** `taboos.md` / 雷区。路数与是否展开某玩法由提示词/节拍决定；临时加禁只做加法，不能解除 `rules/wording.md` 硬禁。
 
@@ -48,7 +48,7 @@ rules/                          # 全部写作规则
   wording.md
   sop-1.md
   sop-2.md
-trials/                         # 试写提示词与产出
+scripts/                        # 仓库脚本（如 count-chars.ps1）
 characters/
   <romanized>/
     <story>/                    # 多主角：最多 3 个 romanized 名用 _ 拼接，挂在排序第一的人物下
