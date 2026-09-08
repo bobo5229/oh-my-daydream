@@ -22,6 +22,7 @@ updated: 2026-09-06
 | 流程：提示词 → 直接写中文正文 | `rules/sop-1.md` |
 | 流程：节拍 → 英文草稿 → 翻译入正文 | `rules/sop-2.md`（仅 SOP 2：A = 本助手写英文；B = Gemini 译入正文。SOP 1 不启用 B） |
 | 汉字字数统计 | `scripts/count-chars.ps1` |
+| 用词合规静态扫描 | `scripts/check-wording.ps1` |
 | 当前节写什么（若使用） | 该故事下 `beats.md` |
 | 下一节节拍灵感（若使用） | 该故事下 `inspiration.md` |
 | 背景、人物、已有走向 | 该故事下 `worldview.md` |
@@ -54,6 +55,7 @@ characters/
     <story>/                    # 多主角：最多 3 个 romanized 名用 _ 拼接，挂在排序第一的人物下
       worldview.md
       beats.md                  # 可选（SOP 1 已默认直写正文）
+      draft.md                  # 可选（仅 SOP 2 临时英文草稿，单次覆盖）
       inspiration.md            # 可选
       chapters/
         ch01.md                 # 一章一文件；默认不分 SEC，章内连续推进
@@ -68,7 +70,7 @@ characters/
 - **正文严禁 YAML**：正文文件（`chapters/chxx.md`）禁止出现任何 YAML frontmatter / 元数据块，直接从正文起笔
 - 无人物级跨故事 `profile`；人设写在该故事 `worldview.md`
 - 提示词给到哪，就写到哪；不擅自补玩法、人物、转折
-- 选用 `sop-1` 或 `sop-2` 由当次指定；未指定时先问或只做你点名的步骤
+- **流程默认**：选用 `sop-1` 或 `sop-2` 由当次指定；未特别指定时，**默认执行 SOP 1**（按提示词直接写中文正文）
 
 ### 对话纪律（全局）
 
