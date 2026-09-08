@@ -24,6 +24,7 @@ updated: 2026-09-06
 
 ## 正文落盘与小节格式
 
+- **严禁 YAML**：正文文件（`chapters/chxx.md`）**禁止包含任何 YAML frontmatter / 元数据块**，直接从正文（或小节标记）起笔。
 - **默认不分 SEC**：写作时在当前章节文件 `chapters/chxx.md` 里 **连续推进** 正文。
 - **若要求切分 SEC**：按 `rules/style.md` 规范，小节标识统一采用居中、Serif 衬线体、字号大于正文的纯数字格式（`<p align="center" style="font-family: serif; font-size: 1.4em;">1</p>`），不展示中文小节名。
 - 一章写满或你明确要求再开下一章文件（`ch01.md` → `ch02.md` …）。

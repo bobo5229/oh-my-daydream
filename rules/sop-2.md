@@ -32,7 +32,7 @@ updated: 2026-09-06
 ## 翻译与正文
 
 - Agent B 翻译时遵守 `style.md` 与 `wording.md`（中文现代小说、生活气息、用词硬禁与分档）  
-- 译文写入当前章节 `chapters/chxx.md`，默认不分 SEC，连续推进（与 `sop-1.md` 落盘约定一致）  
+- 译文写入当前章节 `chapters/chxx.md`，**正文文件严禁包含任何 YAML frontmatter / 元数据块**，默认不分 SEC，连续推进（与 `sop-1.md` 落盘约定一致）  
 - 正文以译入的中文为准；英文不是给读者看的成稿  
 
 ## 对话纪律

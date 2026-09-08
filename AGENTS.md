@@ -65,6 +65,7 @@ characters/
 ### 写作默认
 
 - 维护重心：**正文、世界观**（worldview 一份文档含背景、人物、已有走向）
+- **正文严禁 YAML**：正文文件（`chapters/chxx.md`）禁止出现任何 YAML frontmatter / 元数据块，直接从正文起笔
 - 无人物级跨故事 `profile`；人设写在该故事 `worldview.md`
 - 提示词给到哪，就写到哪；不擅自补玩法、人物、转折
 - 选用 `sop-1` 或 `sop-2` 由当次指定；未指定时先问或只做你点名的步骤
