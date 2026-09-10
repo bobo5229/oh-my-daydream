@@ -18,6 +18,7 @@ updated: 2026-09-06
 | --- | --- |
 | 写什么 / 不能写什么（安全、可写范围、协作） | `rules/boundaries.md` |
 | 怎么写（现代小说、生活气息、禁止的段落风、去形容词化） | `rules/style.md` |
+| 写作示范（生活质感、亲密缠绵与留白推拉范例） | `rules/samples.md` |
 | 用哪个词（硬禁、分档、自检） | `rules/wording.md` |
 | 流程：提示词 → 节拍 → 中文正文 | `rules/sop-1.md` |
 | 流程：节拍 → 英文草稿 → 翻译入正文 | `rules/sop-2.md`（仅 SOP 2：A = 本助手写英文；B = Gemini 译入正文。SOP 1 不启用 B） |
