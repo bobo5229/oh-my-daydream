@@ -8,7 +8,7 @@ updated: 2026-09-06
 
 # Agents
 
-本库是轻量 NSFW **写作工作区**（不是酒馆卡组工程）。助手进入任务时 **先读本文**，再按路由打开专项规则；不要把未点名的规范文件整份塞进上下文。
+本库是轻量**写作工作区**（支持本地扩展规则，不是酒馆卡组工程）。助手进入任务时 **先读本文**，再按路由打开专项规则；不要把未点名的规范文件整份塞进上下文。
 
 **根目录只保留本文。** 全部写作规则在 `rules/`。
 
@@ -16,10 +16,10 @@ updated: 2026-09-06
 
 | 需求 | 打开 |
 | --- | --- |
-| 写什么 / 不能写什么（安全、可写范围、协作） | `rules/boundaries.md` |
+| 写什么 / 不能写什么（安全、可写范围、协作） | `rules/boundaries.md`（本地 NSFW 边界见 `rules/nsfw.local.md`） |
 | 怎么写（现代小说、生活气息、禁止的段落风、去形容词化） | `rules/style.md` |
 | 写作示范（生活质感、亲密缠绵与留白推拉范例） | `rules/samples.md` |
-| 用哪个词（硬禁、分档、自检） | `rules/wording.md` |
+| 用哪个词（硬禁、分档、自检） | `rules/wording.md`（本地 NSFW 用词见 `rules/nsfw.local.md`） |
 | 流程：提示词 → 节拍 → 中文正文 | `rules/sop-1.md` |
 | 流程：节拍 → 英文草稿 → 翻译入正文 | `rules/sop-2.md`（仅 SOP 2：A = 本助手写英文；B = Gemini 译入正文。SOP 1 不启用 B） |
 | 汉字字数统计 | `scripts/count-chars.ps1` |
@@ -83,7 +83,7 @@ characters/
 
 - 性相关角色 **18+**；禁止未成年性化；见 `rules/boundaries.md`
 - 中文现代小说 + 生活气息；偏文言词可接受，禁止成句成段文言及其他禁止段落风；见 `rules/style.md`
-- 落词前过 `rules/wording.md` 硬禁与分档
+- 通用落词过 `rules/wording.md`；成人向场景落词过本地私有规则 `rules/nsfw.local.md`
 
 ### 助手行为
 

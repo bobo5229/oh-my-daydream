@@ -17,7 +17,22 @@ if ((Get-Item $Path).PSIsContainer) {
     $files = @(Get-Item $Path)
 }
 
-$forbiddenRegex = [regex]'阴茎|阳具|假阳具|柱身|阴阜|花心|爱液|肉褶|硅胶棒|骚水|后穴|卵蛋|白浊|白沫|臀|贱|浪货|浪逼|荡妇|淫妇|淫货|精壶|肉套子|精马桶|母猪|破鞋|公用|操穴|甬道|逼口|交合处|逼肉|水液|软肉|泥泞不堪|内里|硬物|死死|灭顶|欲仙欲死|灵魂出窍|升天|濒死|如遭雷击|电流窜遍全身|白光炸开|世界崩塌|几乎昏过去|狂暴|炸裂|浪潮|酥麻|四肢百骸'
+# 默认通用禁忌正则（夸张浮夸词与机械套路）
+$regexStr = '灭顶|欲仙欲死|灵魂出窍|升天|濒死|如遭雷击|电流窜遍全身|白光炸开|世界崩塌|几乎昏过去|狂暴|炸裂|四肢百骸|死死'
+
+# 本地私有 NSFW 规则存在时动态加载本地扩展正则
+$localRules = @("rules/nsfw.local.md", "rules/wording.local.md")
+foreach ($lr in $localRules) {
+    if (Test-Path $lr) {
+        $content = Get-Content -Path $lr -Raw -Encoding utf8
+        if ($content -match '(?m)^\s*-\s*\*\*硬禁扫描正则\*\*[：:]\s*\r?\n\s*`?([^`\r\n]+)`?') {
+            $regexStr = $matches[1].Trim().Trim('`')
+            break
+        }
+    }
+}
+
+$forbiddenRegex = [regex]$regexStr
 $biaoziRegex = [regex]'(?<!反差)婊子'
 
 $hasViolations = $false

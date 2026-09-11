@@ -1,0 +1,15 @@
+# 本地私有 / NSFW 规则文件（本地保留，禁止 Git 跟踪）
+*.local.md
+rules/*.local.md
+rules/local/
+rules/nsfw.md
+rules/nsfw.local.md
+
+# 本地测试与试写产出（保留本地文件，禁止 Git 跟踪）
+trials/
+
+# 临时文件与操作系统生成文件
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
