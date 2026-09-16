@@ -5,6 +5,16 @@ rules/local/
 rules/nsfw.md
 rules/nsfw.local.md
 
+# 包含 NSFW 内容的角色 / 故事（本地保留，禁止 Git 跟踪）
+characters/hou-bing-qing/
+characters/hu-xinyue/
+characters/sun-bo/shanghai/
+
+# Obsidian 配置（本地编辑器状态，不跟踪）
+.crossnote/
+.obsidian/
+DayDream/
+
 # 本地测试与试写产出（保留本地文件，禁止 Git 跟踪）
 trials/
 
