@@ -3,7 +3,7 @@ title: Agents
 type: meta
 tags:
   - daydreamer/meta
-updated: 2026-09-06
+updated: 2026-09-13
 ---
 
 # Agents
@@ -17,13 +17,14 @@ updated: 2026-09-06
 | 需求 | 打开 |
 | --- | --- |
 | 写什么 / 不能写什么（安全、可写范围、协作） | `rules/boundaries.md`（本地 NSFW 边界见 `rules/nsfw.local.md`） |
-| 怎么写（现代小说、生活气息、禁止的段落风、去形容词化） | `rules/style.md` |
+| 怎么写（现代小说、生活气息、去形容词化、日常语言强度控制） | `rules/style.md` |
 | 写作示范（生活质感、亲密缠绵与留白推拉范例） | `rules/samples.md` |
 | 用哪个词（硬禁、分档、自检） | `rules/wording.md`（本地 NSFW 用词见 `rules/nsfw.local.md`） |
 | 流程：提示词 → 节拍 → 中文正文 | `rules/sop-1.md` |
 | 流程：节拍 → 英文草稿 → 翻译入正文 | `rules/sop-2.md`（仅 SOP 2：A = 本助手写英文；B = Gemini 译入正文。SOP 1 不启用 B） |
+| 流程：《deep-voyage》专属流程 | `characters/sun-bo/deep-voyage/sop.md`（用户给节拍，助手不自写节拍） |
 | 汉字字数统计 | `scripts/count-chars.ps1` |
-| 用词合规静态扫描 | `scripts/check-wording.ps1` |
+| 用词合规审查（助手内置核验，不跑脚本） | `rules/wording.md` |
 | 当前节写什么（节拍） | 该故事下 `beats.md` |
 | 下一节节拍灵感（若使用） | 该故事下 `inspiration.md` |
 | 背景、人物、已有走向 | 该故事下 `worldview.md` |
@@ -69,6 +70,7 @@ characters/
 
 - 维护重心：**正文、世界观**（worldview 一份文档含背景、人物、已有走向）
 - **正文严禁 YAML**：正文文件（`chapters/chxx.md`）禁止出现任何 YAML frontmatter / 元数据块，直接从正文起笔
+- **节拍纯粹与单次覆盖**：节拍文件（`beats.md`）禁止包含 YAML frontmatter、说明性大标题或“当前章节与定位”模块，仅保留针对当次提示词拆分的剧情节拍与后续接续点；新提示词给出时直接单次全量覆盖旧节拍
 - 无人物级跨故事 `profile`；人设写在该故事 `worldview.md`
 - 提示词给到哪，就写到哪；不擅自补玩法、人物、转折
 - **流程默认**：选用 `sop-1` 或 `sop-2` 由当次指定；未特别指定时，**默认执行 SOP 1**（提示词 → 节拍 → 确认 → 中文正文）

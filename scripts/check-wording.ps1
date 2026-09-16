@@ -34,6 +34,7 @@ foreach ($lr in $localRules) {
 
 $forbiddenRegex = [regex]$regexStr
 $biaoziRegex = [regex]'(?<!反差)婊子'
+$bushiErshiRegex = [regex]'不是.*?而是|与其说是.*?不如说是|非.*?而是'
 
 $hasViolations = $false
 Write-Host "=========================================="
@@ -48,15 +49,21 @@ foreach ($file in $files) {
     for ($i = 0; $i -lt $lines.Count; $i++) {
         $lineNum = $i + 1
         $lineText = $lines[$i]
+        if ([string]::IsNullOrWhiteSpace($lineText)) { continue }
 
-        $matches = $forbiddenRegex.Matches($lineText)
-        foreach ($m in $matches) {
+        $forbMatches = [System.Text.RegularExpressions.Regex]::Matches($lineText, $regexStr)
+        foreach ($m in $forbMatches) {
             $fileViolations += "  [第 $lineNum 行] 命中硬禁词: '$($m.Value)' -> ...$($lineText.Trim())..."
         }
 
-        $biaoMatches = $biaoziRegex.Matches($lineText)
+        $biaoMatches = [System.Text.RegularExpressions.Regex]::Matches($lineText, '(?<!反差)婊子')
         foreach ($m in $biaoMatches) {
             $fileViolations += "  [第 $lineNum 行] 命中单独'婊子' -> ...$($lineText.Trim())..."
+        }
+
+        $bushiMatches = [System.Text.RegularExpressions.Regex]::Matches($lineText, '不是.+?而是|与其说是.+?不如说是|非.+?而是')
+        foreach ($m in $bushiMatches) {
+            $fileViolations += "  [第 $lineNum 行] 命中禁用句式 '不是...而是/与其说...不如说' -> ...$($lineText.Trim())..."
         }
     }
 
