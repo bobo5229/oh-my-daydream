@@ -1,24 +1,26 @@
-# 本地私有 / NSFW 规则文件（本地保留，禁止 Git 跟踪）
-*.local.md
-rules/*.local.md
-rules/local/
-rules/nsfw.md
-rules/nsfw.local.md
+# 本仓库只跟踪 characters/sun-bo/deep-voyage/（深潜航道）
+# 其余写作工作区内容保留在本地，不纳入版本管理
 
-# 包含 NSFW 内容的角色 / 故事（本地保留，禁止 Git 跟踪）
-characters/hou-bing-qing/
-characters/hu-xinyue/
-characters/sun-bo/shanghai/
+# 默认忽略根目录下一切
+/*
 
-# Obsidian 配置（本地编辑器状态，不跟踪）
-.crossnote/
+# 放行 .gitignore 本身
+!/.gitignore
+
+# 逐层放行到 deep-voyage（git 必须逐级进入目录）
+!/characters/
+!/characters/sun-bo/
+!/characters/sun-bo/deep-voyage/
+
+# 显式排除 characters 下其他故事目录
+/characters/sun-bo/shanghai/
+/characters/hou-bing-qing/
+/characters/hu-xinyue/
+/characters/wen-zhuolin/
+
+# 编辑器与系统杂项
 .obsidian/
-DayDream/
-
-# 本地测试与试写产出（保留本地文件，禁止 Git 跟踪）
-trials/
-
-# 临时文件与操作系统生成文件
+.crossnote/
 .DS_Store
 Thumbs.db
 *.tmp
