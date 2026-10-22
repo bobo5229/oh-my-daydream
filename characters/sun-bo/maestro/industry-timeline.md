@@ -8,12 +8,14 @@
 | 2022.03—07 | 第一次“AI 寒冬”／静默竞赛期：**公开重大旗舰发布放缓**，内部模型研发并未停止；常规产品和 Harness 仍可进步。 |
 | 2022.07 | 市场对公开模型能力不足的质疑加重；御三家暗中积累模型，考虑发布但不愿率先打破默契。 |
 | **2022.08.12** | **Convex CEO** 在架空 X 类社交平台发帖：**“Everything looks non-linear until you find the right kernel.”** 不解释，不加发布预告；不可误写为 KernelLab PM。 |
-| **2022.08.15** | Convex 支持的 **KernelLab 发布 K1**，首次公开模型即在 Coding 与复杂软件工程上明显超过 GRM-4.1-Byte、Norbert-Epsilon: Treatise；成为新的 Coding SOTA，打破行业默契。 |
+| **2022.08.15** | Convex 支持的 **KernelLab 发布 K1** 及适配 Harness 框架 **Ko-Operator**（CLI: **`ko`**，双关 Co-operator / Kernel Operator / K.O.），首次公开模型即在 Coding 与复杂软件工程上明显超过 GRM-4.1-Byte、Norbert-Epsilon: Treatise；成为新的 Coding SOTA，打破行业默契。 |
 | 2022.08 之后 | 御三家相继跟进，具体先后、产品及日期待定；国际倡议**没有正式撤销**，只是逐渐被忽略。 |
 
 ## 厂商及模型说明
 
-**Convex** 专精量化投资，不兼营其他主营领域；长期支持研究及品牌相对独立的通用基础模型实验室 **KernelLab**。实验室此前拥有内部实验模型；**K1 是第一代公开型号，不是第一款内部模型**。其能力参照现实 Claude Opus 4.7，但商业生态与型号定位不复制 Claude、Grok 或 DeepSeek。首发以高难度 Coding 为最突出优势，并不意味着它仅是 Coding 专项模型；其公开 API、收费、Harness 等产品细节尚待确定。
+**Convex** 专精量化投资，不兼营其他主营领域；长期支持研究及品牌相对独立的通用基础模型实验室 **KernelLab**。实验室此前拥有内部实验模型；**K1 是第一代公开型号，不是第一款内部模型**。其能力参照现实 Claude Opus 4.7，但商业生态与型号定位不复制 Claude、Grok 或 DeepSeek。首发以高难度 Coding 为最突出优势，并不意味着它仅是 Coding 专项模型；其公开 API、收费与商业生态细节尚待确定。
+
+**Ko-Operator** 是与 K1 同步推出的自研 Harness 框架，首发 CLI/TUI 形态，终端命令行简写为 **`ko`**。名称双关人机协同理念中的 **Co-operator**（协作者）、数学与量化领域的 **Kernel Operator**（核算子）以及打破行业停火的 **K.O.**。专精轻量虚拟沙箱、确定性状态回溯与并发工具调度。模型与 Harness 保持解耦，各自独立演进。
 
 ## 仍未锁定
 

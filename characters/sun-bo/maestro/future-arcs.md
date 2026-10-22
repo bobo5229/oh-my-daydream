@@ -52,6 +52,6 @@
 
 ### 2022 年 3—8 月：第一次静默竞赛期（世界线已确认，正文待写）
 
-2022 年 3 月国际组织发布非强制性 AI 安全倡议，御三家公开支持审慎发布新旗舰、私下继续模型军备竞赛；至 7 月市场不满增长。**8 月 12 日 Convex CEO** 在架空社交平台发出“Everything looks non-linear until you find the right kernel.”，不作解释；**8 月 15 日 Convex 旗下 KernelLab 首次公开发布 K1**，凭高难度 Coding 与复杂工程能力超越 GRM-4.1-Byte、Norbert-Epsilon: Treatise，打破约五个月的发布默契。此后御三家跟进，声明没有撤销但逐渐被忽视。详见 [产业事件索引](industry-timeline.md) 与 [Lore](lore.md)。
+2022 年 3 月国际组织发布非强制性 AI 安全倡议，御三家公开支持审慎发布新旗舰、私下继续模型军备竞赛；至 7 月市场不满增长。**8 月 12 日 Convex CEO** 在架空社交平台发出“Everything looks non-linear until you find the right kernel.”，不作解释；**8 月 15 日 Convex 旗下 KernelLab 首次公开发布 K1 及适配 Harness 框架 Ko-Operator（CLI: `ko`）**，凭高难度 Coding 与复杂工程能力超越 GRM-4.1-Byte、Norbert-Epsilon: Treatise，打破约五个月的发布默契。此后御三家跟进，声明没有撤销但逐渐被忽视。详见 [产业事件索引](industry-timeline.md) 与 [Lore](lore.md)。
 
 以上是**产业史而非已发生的孙博个人剧情**。不要自动让他知晓 CEO 暗示、提前使用 K1 或转向某家厂商。声明的组织名称、社交平台名称和御三家的跟进顺序仍未确认；早期 Interlude 不需要解释技术原理或 CEO 帖子的双关。
