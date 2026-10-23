@@ -1,8 +1,17 @@
+---
+class: lore-sheet
+---
+
 # 《总谱》架空设定
 
 > **定位**：本文档为《总谱》（Maestro）架空世界的技术基准与演进事实源，用于保障技术背景与故事时间线的一致性。
 >
 > **维护规则**：遵循 [`lore-maintenance.md`](lore-maintenance.md)，优先增量维护；事实确定需经讨论锁定，不预先虚构 Canon；严禁在正文中让角色提前使用未解锁的技术。
+
+```toc
+depth_from: 2
+depth_to: 3
+```
 
 ---
 
