@@ -1,0 +1,12 @@
+---
+import ReaderLayout from '../layouts/ReaderLayout.astro';
+import { loadReaderContent } from '../content/index.ts';
+const first = (await loadReaderContent()).chapters[0];
+---
+<ReaderLayout title="未找到这一页">
+  <section class="message-page">
+    <h1 class="chapter-title">未找到这一页</h1>
+    <p>地址可能已调整，或章节尚未写入。</p>
+    {first && <a href={`/read/${first.id}/`}>从{first.title}开始阅读</a>}
+  </section>
+</ReaderLayout>

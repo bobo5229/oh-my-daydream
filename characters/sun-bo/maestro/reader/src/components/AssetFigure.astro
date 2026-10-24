@@ -1,0 +1,8 @@
+---
+import { mediaFigure } from '../content/media.ts';
+import { renderElements } from '../content/markdown.ts';
+import type { VisualAsset } from '../metadata/assets.ts';
+interface Props { asset: VisualAsset }
+const { asset } = Astro.props;
+---
+<Fragment set:html={renderElements([mediaFigure(asset)])} />

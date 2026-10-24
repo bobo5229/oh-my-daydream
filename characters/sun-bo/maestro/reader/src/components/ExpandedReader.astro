@@ -1,0 +1,8 @@
+---
+import Icon from './Icon.astro';
+---
+<dialog id="expanded-reader" class="expanded-reader" aria-label="资料独立阅读">
+  <header class="expanded-heading"><h2>资料阅读</h2><button class="quiet-button" type="button" data-close-expanded><Icon name="close" />返回正文</button></header>
+  <div class="expanded-scroll" data-expanded-host tabindex="0"></div>
+</dialog>
+<script>import '../client/expanded.ts';</script>

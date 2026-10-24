@@ -1,0 +1,9 @@
+---
+import Icon from './Icon.astro';
+interface Props { previous?: { id: string; title: string } | undefined; next?: { id: string; title: string } | undefined }
+const { previous, next } = Astro.props;
+---
+<nav class="chapter-pager" data-reading-pager aria-label="章节切换">
+  {previous ? <a href={`/read/${previous.id}/`} rel="prev" aria-label={`上一章：${previous.title}`}><Icon name="left" /><span>上一章 · {previous.title}</span></a> : <span />}
+  {next ? <a href={`/read/${next.id}/`} rel="next" aria-label={`下一章：${next.title}`}><span>下一章 · {next.title}</span><Icon name="right" /></a> : <span />}
+</nav>

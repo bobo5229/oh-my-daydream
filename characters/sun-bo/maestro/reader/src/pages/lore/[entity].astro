@@ -1,0 +1,31 @@
+---
+import ReaderLayout from '../../layouts/ReaderLayout.astro';
+import ReaderNav from '../../components/ReaderNav.astro';
+import LoreSourceView from '../../components/LoreSourceView.astro';
+import { loadReaderContent } from '../../content/index.ts';
+import { loadLore, ENTITY_TYPES } from '../../metadata/lore.ts';
+import type { LoreEntity, LoreSource } from '../../metadata/lore.ts';
+import { loadAssets } from '../../metadata/assets.ts';
+import type { VisualAsset } from '../../metadata/assets.ts';
+import { renderMedia } from '../../content/media.ts';
+import AssetFigure from '../../components/AssetFigure.astro';
+export async function getStaticPaths() {
+  const content = await loadReaderContent();
+  const lore = await loadLore();
+  const assets = await loadAssets(content, lore);
+  for (const source of lore.sources) source.html = await renderMedia({ type: 'root', children: source.blocks.map(block => block.node.type === 'heading' && block.node.depth === 1 ? { ...block.node, depth: 2 } : block.node) }, assets, source.file);
+  const chapters = content.chapters.map(({ id, title, ordinal }) => ({ id, title, ordinal }));
+  return lore.entities.map(entity => ({ params: { entity: entity.id }, props: { entity, source: lore.sources.find(source => source.id === entity.sourceId)!, chapters, assets: assets.assets.filter(asset => asset.entityIds.includes(entity.id)) } }));
+}
+interface Props { entity: LoreEntity; source: LoreSource; chapters: { id: string; title: string; ordinal: number }[]; assets: VisualAsset[] }
+const { entity, source, chapters, assets } = Astro.props;
+---
+<ReaderLayout title={entity.name}>
+  <ReaderNav slot="navigation" chapters={chapters} />
+  <h1 class="chapter-title">{entity.name}</h1>
+  <p class="eyebrow">Lore · {ENTITY_TYPES[entity.type]}</p>
+  <p class="source-credit">来源：{source.file} · {source.heading}</p>
+  {assets.map(asset => <AssetFigure asset={asset} />)}
+  <LoreSourceView source={source} />
+  <p class="return-to-novel"><a href={`/read/${chapters[0]?.id}/`} data-return-to-novel>返回正文原位置</a></p>
+</ReaderLayout>

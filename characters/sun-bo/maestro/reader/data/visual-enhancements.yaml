@@ -1,0 +1,3 @@
+version: 1
+# 视觉模块可选；当前三篇档案保留普通 Markdown，不强制制造图表。
+modules: []

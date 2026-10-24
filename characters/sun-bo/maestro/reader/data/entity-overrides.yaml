@@ -1,0 +1,10 @@
+version: 1
+# 第一人称正文不以“我”自动识别人名；主角关系来自 worldview.md。
+chapters:
+  - { chapterId: ch01, include: [sun-bo] }
+  - { chapterId: ch02, include: [sun-bo] }
+  - { chapterId: ch03, include: [sun-bo] }
+  - { chapterId: ch04, include: [sun-bo] }
+  - { chapterId: ch05, include: [sun-bo] }
+  - { chapterId: ch06, include: [sun-bo] }
+# 每章可选 exclude: [实体ID]；resolve: { 歧义名称: 选定实体ID }。

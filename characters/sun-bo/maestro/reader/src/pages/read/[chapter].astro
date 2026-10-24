@@ -1,0 +1,48 @@
+---
+import { loadPresentation } from '../../presentation.ts';
+import ReaderLayout from '../../layouts/ReaderLayout.astro';
+import ReaderNav from '../../components/ReaderNav.astro';
+import ChapterPager from '../../components/ChapterPager.astro';
+import Icon from '../../components/Icon.astro';
+import ResourcesDrawer from '../../components/ResourcesDrawer.astro';
+import type { LoreIndex } from '../../metadata/lore.ts';
+import type { AssetIndex } from '../../metadata/assets.ts';
+import type { Timeline } from '../../metadata/timeline.ts';
+import type { Interlude } from '../../content/types.ts';
+import type { DerivedChapter } from '../../content/types.ts';
+
+export async function getStaticPaths() {
+  const { content, timeline, lore, assets, associations } = await loadPresentation();
+  const chapters = content.chapters.map(({ id, title, ordinal }) => ({ id, title, ordinal }));
+  return content.chapters.map((chapter, index) => ({
+    params: { chapter: chapter.id },
+    props: { chapter, chapters, timeline, lore, assets, relatedEntityIds: associations.chapters.find(item => item.chapterId === chapter.id)?.entityIds ?? [], interludes: content.interludes, previous: chapters[index - 1], next: chapters[index + 1] },
+  }));
+}
+
+interface Props {
+  chapter: DerivedChapter;
+  timeline: Timeline;
+  lore: LoreIndex;
+  relatedEntityIds: string[];
+  assets: AssetIndex;
+  interludes: Interlude[];
+  chapters: { id: string; title: string; ordinal: number }[];
+  previous?: { id: string; title: string } | undefined;
+  next?: { id: string; title: string } | undefined;
+}
+const { chapter, chapters, timeline, lore, relatedEntityIds, interludes, previous, next, assets } = Astro.props;
+const hasSourceTitle = chapter.novel.blocks.some(block => block.node.type === 'heading' && block.node.depth === 1);
+---
+<ReaderLayout title={chapter.title}>
+  <ReaderNav slot="navigation" chapters={chapters} currentId={chapter.id}>
+    <button class="quiet-button resources-opener" type="button" data-open-resources aria-label="打开资料抽屉" aria-controls="resources-drawer" aria-haspopup="dialog"><Icon name="archive" /><span>资料</span></button>
+  </ReaderNav>
+  {!hasSourceTitle && <h1 class="chapter-title">{chapter.title}</h1>}
+  <article class="novel" data-chapter-id={chapter.id} aria-label={chapter.title}>
+    {chapter.segments.filter(segment => segment.kind === 'novel' && segment.html.trim()).map(segment => <div data-reading-part={segment.id}><Fragment set:html={segment.html} /></div>)}
+  </article>
+  <ChapterPager previous={previous} next={next} />
+  <ResourcesDrawer timeline={timeline} interludes={interludes} chapterId={chapter.id} blockIds={chapter.novel.blocks.map(block => block.id)} lore={lore} relatedEntityIds={relatedEntityIds} assets={assets} />
+  <script>import '../../client/progress.ts';</script>
+</ReaderLayout>

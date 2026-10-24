@@ -1,0 +1,42 @@
+version: 1
+sources:
+  sun-bo: { file: worldview.md, heading: '孙博核心性格设定' }
+  epochai: { file: lore.md, heading: '1. EpochAI（对标现实：OpenAI）' }
+  epistemic: { file: lore.md, heading: '2. Epistemic（对标现实：Anthropic）' }
+  aleph: { file: lore.md, heading: '3. Aleph（对标现实：Google / Google DeepMind）' }
+  fathom: { file: lore.md, heading: '4. Fathom / 探微（对标现实：DeepSeek 技术竞争定位）' }
+  kernellab: { file: lore.md, heading: 'Convex、KernelLab 与 K1' }
+  harness: { file: lore.md, heading: '2. Agent 架构与 Harness 成熟度' }
+entities:
+  - { id: sun-bo, type: person, name: 孙博, aliases: [], source: sun-bo, related: [] }
+  - { id: epochai, type: company, name: EpochAI, aliases: [], source: epochai, related: [grm, epochchat, encoder] }
+  - { id: epistemic, type: company, name: Epistemic, aliases: [], source: epistemic, related: [norbert, norbert-web, kybernetes, epistemic-fellow] }
+  - { id: aleph, type: company, name: Aleph, aliases: [], source: aleph, related: [atlas, atlas-iv] }
+  - { id: fathom, type: company, name: 深圳探微人工智能技术研究有限公司, aliases: [Fathom, 探微], source: fathom, related: [maestro, maestro-musician] }
+  - { id: convex, type: company, name: Convex, aliases: [], source: kernellab, related: [kernellab] }
+  - { id: kernellab, type: company, name: KernelLab, aliases: [], source: kernellab, related: [convex, k1, ko-operator] }
+  - { id: grm, type: model, name: GRM, aliases: [], source: epochai, excerptMatch: 'GRM 是负责', related: [epochai, grm-4, grm-41, encoder] }
+  - { id: grm-4, type: model, name: GRM-4, aliases: [], source: epochai, related: [epochai, grm, grm-4-byte] }
+  - { id: grm-4-byte, type: model, name: GRM-4-Byte, aliases: [], source: epochai, related: [epochai, encoder] }
+  - { id: grm-41, type: model, name: GRM-4.1, aliases: [], source: epochai, related: [epochai, grm-41-byte] }
+  - { id: grm-41-byte, type: model, name: GRM-4.1-Byte, aliases: [], source: epochai, related: [epochai, encoder] }
+  - { id: norbert, type: model, name: Norbert, aliases: [], source: epistemic, related: [epistemic, norbert-epsilon-treatise, kybernetes, norbert-web] }
+  - { id: norbert-delta-treatise, type: model, name: 'Norbert-Delta: Treatise', aliases: [], source: epistemic, related: [epistemic, norbert, kybernetes] }
+  - { id: norbert-delta-dialogue, type: model, name: 'Norbert-Delta: Dialogue', aliases: [], source: epistemic, related: [epistemic, norbert] }
+  - { id: norbert-delta-aphorism, type: model, name: 'Norbert-Delta: Aphorism', aliases: [], source: epistemic, related: [epistemic, norbert] }
+  - { id: norbert-epsilon-treatise, type: model, name: 'Norbert-Epsilon: Treatise', aliases: [Norbert-Epsilon, Epsilon], source: epistemic, related: [epistemic, norbert, kybernetes] }
+  - { id: atlas, type: model, name: Atlas, aliases: [], source: aleph, related: [aleph, atlas-iii, atlas-iii-nova, atlas-iv] }
+  - { id: atlas-iii, type: model, name: Atlas III, aliases: [], source: aleph, related: [aleph, atlas] }
+  - { id: atlas-iii-nova, type: model, name: Atlas III-Nova, aliases: [Nova], source: aleph, related: [aleph, atlas] }
+  - { id: atlas-iv, type: model, name: Atlas IV, aliases: [], source: aleph, related: [aleph, atlas] }
+  - { id: maestro, type: model, name: Maestro, aliases: [], source: fathom, related: [fathom, maestro-musician] }
+  - { id: maestro-musician, type: model, name: 'Maestro-Epoch: Musician', aliases: [Musician], source: fathom, related: [fathom, maestro] }
+  - { id: k1, type: model, name: K1, aliases: [], source: kernellab, related: [kernellab, ko-operator] }
+  - { id: encoder, type: harness, name: Encoder, aliases: [], source: epochai, related: [epochai, grm-4-byte, grm-41-byte] }
+  - { id: kybernetes, type: harness, name: Kybernetes, aliases: [], source: epistemic, excerptMatch: '2021.08｜Kybernetes', related: [epistemic, norbert, norbert-epsilon-treatise] }
+  - { id: ko-operator, type: harness, name: Ko-Operator, aliases: [KO-Operator, ko], source: kernellab, related: [kernellab, k1] }
+  - { id: epochchat, type: product, name: EpochChat, aliases: [], source: epochai, related: [epochai, grm] }
+  - { id: norbert-web, type: product, name: Norbert 网页端, aliases: [Norbert网页端], source: epistemic, related: [epistemic, norbert, epistemic-fellow] }
+  - { id: epistemic-fellow, type: product, name: Epistemic Fellow, aliases: [Fellow], source: epistemic, related: [epistemic, norbert-web, kybernetes] }
+  - { id: harness, type: technology, name: Harness, aliases: [], source: harness, related: [encoder, kybernetes, ko-operator] }
+# 不使用“我”、普通职称或现实对标公司名作为自动别称；不把产品当基础模型。

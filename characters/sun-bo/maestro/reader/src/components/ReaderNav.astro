@@ -1,0 +1,47 @@
+---
+import Icon from './Icon.astro';
+import ReadingSettings from './ReadingSettings.astro';
+import { loadReaderContent } from '../content/index.ts';
+import { loadReadingOrder } from '../metadata/reading-order.ts';
+interface Props {
+  chapters: { id: string; title: string; ordinal: number }[];
+  currentId?: string;
+}
+const { chapters, currentId } = Astro.props;
+const current = chapters.find(chapter => chapter.id === currentId);
+const order = await loadReadingOrder(await loadReaderContent());
+---
+<header class="site-header">
+  <nav class="top-nav" aria-label="作品导航">
+    <div class="nav-leading">
+      <a class="brand" href="/home/" aria-label="总谱，返回作品首页">总谱</a>
+      <button class="quiet-button" type="button" data-open-contents aria-label="打开章节目录" aria-controls="chapter-navigation" aria-haspopup="dialog">
+        <Icon name="menu" /><span>目录</span>
+      </button>
+    </div>
+    {current && <span class="chapter-counter" aria-label={`当前第 ${current.ordinal} 章，共 ${chapters.length} 章`}>{current.ordinal} / {chapters.length}</span>}
+    <select class="mode-select" data-mode-select aria-label="顶部阅读模式"><option value="novel">纯小说</option><option value="chronicle">完整编年</option></select>
+    <slot />
+    <ReadingSettings />
+  </nav>
+</header>
+<dialog id="chapter-navigation" class="chapter-drawer" aria-labelledby="chapter-navigation-title">
+  <div class="drawer-heading">
+    <h2 id="chapter-navigation-title">章节目录</h2>
+    <button class="icon-button" type="button" data-close-contents aria-label="关闭章节目录"><Icon name="close" /></button>
+  </div>
+  <fieldset class="directory-modes"><legend>阅读模式</legend><label><input type="radio" name="directory-mode" value="novel" data-mode-choice checked />纯小说</label><label><input type="radio" name="directory-mode" value="chronicle" data-mode-choice />完整编年</label></fieldset>
+  <nav aria-label="章节目录抽屉">
+    <ol class="chapter-list" data-mode-directory="novel">
+      {chapters.map(chapter => <li><a href={`/read/${chapter.id}/`} aria-current={chapter.id === currentId ? 'page' : undefined}>{chapter.title}</a></li>)}
+    </ol>
+    <ol class="chapter-list" data-mode-directory="chronicle" hidden>{order.chronicle.map(node => <li><a href={node.url} data-reading-node={node.id}>{node.title}</a></li>)}</ol>
+  </nav>
+  <a class="drawer-footer-link" href="/contents/">查看完整目录</a>
+  <a class="drawer-footer-link" href="/gallery/">视觉资料库</a>
+</dialog>
+<script type="application/json" id="reading-sequences" set:html={JSON.stringify({ novel: order.novel, chronicle: order.chronicle }).replace(/</g, '\\u003c')} />
+<script>
+  import '../client/navigation.ts';
+  import '../client/modes.ts';
+</script>

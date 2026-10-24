@@ -1,0 +1,35 @@
+version: 1
+# 仅为阅读器的展示关联。顺序由数组决定，不把寒假强制转成某个自然月。
+# 故事时间来自 chapters-index.md 与对应正文；事件时期保留 Interlude 原标题。
+stages:
+  - { id: autumn-2021, label: '2021 年 9—10 月', source: 'chapters-index.md · ch01' }
+  - { id: november-2021, label: '2021 年 11 月', source: 'chapters-index.md · ch02；ch01 末段' }
+  - { id: december-2021, label: '2021 年 12 月', source: 'chapters-index.md · ch03' }
+  - { id: january-2022, label: '2022 年 1 月', source: 'chapters/ch03.md · 时间滑进 2022 年 1 月上旬' }
+  - { id: winter-2022, label: '2022 年寒假', source: 'chapters-index.md · ch04' }
+  - { id: march-2022, label: '2022 年 3 月', source: 'chapters-index.md · ch05' }
+  - { id: april-2022, label: '2022 年 4 月', source: 'chapters-index.md · ch06' }
+chapters:
+  - chapterId: ch01
+    stageId: autumn-2021
+    scenes:
+      - { anchorId: r-ch01-b-1313fc0fa44a8787, stageId: november-2021 }
+  - { chapterId: ch02, stageId: november-2021 }
+  - chapterId: ch03
+    stageId: december-2021
+    scenes:
+      - { anchorId: r-ch03-b-017b3b112a2c980a, stageId: january-2022 }
+  - { chapterId: ch04, stageId: winter-2022 }
+  - { chapterId: ch05, stageId: march-2022 }
+  - { chapterId: ch06, stageId: april-2022 }
+interludes:
+  - interludeId: interlude-01
+    eventPeriod: '2021 年 9 月'
+    stageIds: [autumn-2021, november-2021, december-2021]
+  - interludeId: interlude-02
+    eventPeriod: '2022 年 1 月'
+    stageIds: [january-2022, winter-2022]
+  - interludeId: interlude-03
+    eventPeriod: '2021 年 12 月—2022 年 3 月'
+    stageIds: [march-2022, april-2022]
+# stageIds 是查阅关联，不表示该阶段有新的行业事件；不定义正式前后篇编排。

@@ -1,0 +1,40 @@
+---
+import '../styles/tokens.css';
+import '../styles/reader.css';
+import { PREFERENCES_KEY, FONT_SIZE_LIMITS, LINE_HEIGHT_LIMITS } from '../client/preferences-model.ts';
+import MediaViewer from '../components/MediaViewer.astro';
+
+interface Props { title: string }
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title} · 总谱</title>
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline define:vars={{ preferencesKey: PREFERENCES_KEY, fontLimits: FONT_SIZE_LIMITS, lineLimits: LINE_HEIGHT_LIMITS }}>
+      try {
+        const stored = JSON.parse(localStorage.getItem(preferencesKey) || 'null');
+        if (stored?.version === 1) {
+          if (['system', 'light', 'dark'].includes(stored.theme)) document.documentElement.dataset.theme = stored.theme;
+          if (Number.isFinite(stored.fontSize) && stored.fontSize >= fontLimits.min && stored.fontSize <= fontLimits.max) {
+            document.documentElement.style.setProperty('--reader-font-size', `${stored.fontSize}px`);
+          }
+          if (Number.isFinite(stored.lineHeight) && stored.lineHeight >= lineLimits.min && stored.lineHeight <= lineLimits.max) {
+            document.documentElement.style.setProperty('--reader-line-height', String(stored.lineHeight));
+          }
+        }
+      } catch { /* 默认跟随系统。 */ }
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳到正文</a>
+    <slot name="navigation" />
+    <main id="main-content" class="reading-shell" tabindex="-1">
+      <slot />
+    </main>
+    <MediaViewer />
+  </body>
+</html>
