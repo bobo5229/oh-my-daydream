@@ -1,8 +1,10 @@
-import { syncModalLock, outsideDialog } from './dialogs.ts';
+import { readerEvents } from './events.ts';
+import { registerOverlay, syncModalLock, outsideDialog } from './dialogs.ts';
 
 const expanded = document.querySelector<HTMLDialogElement>('#expanded-reader');
 const host = expanded?.querySelector<HTMLElement>('[data-expanded-host]');
 if (expanded && host) {
+  registerOverlay(expanded);
   let origin: HTMLElement | null = null;
   let article: HTMLElement | null = null;
   let trigger: HTMLButtonElement | null = null;
@@ -13,7 +15,7 @@ if (expanded && host) {
     const home = button?.closest('[data-resource-selection]')?.querySelector<HTMLElement>('[data-resource-home]');
     const selected = home?.querySelector<HTMLElement>('[data-resource-text]:not([hidden])');
     if (!button || !home || !selected) return;
-    document.dispatchEvent(new Event('maestro:layout-before-change'));
+    readerEvents.emit('maestro:layout-before-change');
     origin = home; article = selected; trigger = button;
     drawerScroll = home.closest('dialog')?.scrollTop ?? 0;
     host.append(article);
@@ -32,7 +34,7 @@ if (expanded && host) {
     syncModalLock();
     if (trigger?.closest('dialog')?.open) trigger.focus({ preventScroll: true });
     origin = null; article = null; trigger = null;
-    document.dispatchEvent(new Event('maestro:overlay-close'));
+    readerEvents.emit('maestro:overlay-close');
   });
-  document.addEventListener('maestro:drawer-open', () => { if (expanded.open) expanded.close(); });
+  readerEvents.on('maestro:drawer-open', () => { if (expanded.open) expanded.close(); });
 }

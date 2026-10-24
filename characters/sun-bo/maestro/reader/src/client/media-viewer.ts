@@ -1,9 +1,11 @@
-import { syncModalLock } from './dialogs.ts';
+import { readerEvents } from './events.ts';
+import { registerOverlay, syncModalLock } from './dialogs.ts';
 
 const viewer = document.querySelector<HTMLDialogElement>('#media-viewer');
 const stage = viewer?.querySelector<HTMLElement>('[data-media-stage]');
 const image = stage ? document.createElement('img') : null;
 if (viewer && stage && image) {
+  registerOverlay(viewer);
   image.dataset['mediaImage'] = ''; image.alt = ''; image.draggable = false; image.hidden = true; stage.append(image);
   const status = viewer.querySelector<HTMLElement>('[data-media-status]')!;
   let trigger: HTMLElement | null = null;
@@ -39,7 +41,7 @@ if (viewer && stage && image) {
     if (!button?.dataset['mediaOpen']) return;
     const url = new URL(button.dataset['mediaOpen'], location.href);
     if (url.origin !== location.origin || !url.pathname.startsWith('/media/')) return;
-    document.dispatchEvent(new Event('maestro:layout-before-change'));
+    readerEvents.emit('maestro:layout-before-change');
     trigger = button; pointers.clear(); zoom = 1; x = 0; y = 0;
     const alt = button.querySelector('img')?.alt ?? button.getAttribute('aria-label') ?? '图片预览';
     viewer.querySelector('#media-title')!.textContent = alt;
@@ -83,6 +85,6 @@ if (viewer && stage && image) {
   addEventListener('resize', () => { if (viewer.open) fitImage(); });
   viewer.addEventListener('close', () => {
     pointers.clear(); image.removeAttribute('src'); syncModalLock(); trigger?.focus({ preventScroll: true }); trigger = null;
-    document.dispatchEvent(new Event('maestro:overlay-close'));
+    readerEvents.emit('maestro:overlay-close');
   });
 }

@@ -1,3 +1,14 @@
+const overlays = new Set<HTMLDialogElement>();
+
+/** 覆盖视图自行登记；使用方无需知道其他组件的 DOM 标识或内部结构。 */
+export function registerOverlay(dialog: HTMLDialogElement): () => void {
+  overlays.add(dialog);
+  return () => { overlays.delete(dialog); };
+}
+export function hasOpenOverlay(): boolean {
+  return [...overlays].some(dialog => dialog.open);
+}
+
 export function syncModalLock(): void {
   document.documentElement.classList.toggle('has-modal', Boolean(document.querySelector('dialog:modal')));
 }

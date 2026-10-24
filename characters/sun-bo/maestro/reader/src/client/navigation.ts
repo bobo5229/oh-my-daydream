@@ -1,10 +1,11 @@
+import { readerEvents } from './events.ts';
 import { syncModalLock, outsideDialog } from './dialogs.ts';
 const dialog = document.querySelector<HTMLDialogElement>('#chapter-navigation');
 const opener = document.querySelector<HTMLButtonElement>('[data-open-contents]');
 if (dialog && opener) {
   let returnFocus = true;
   opener.addEventListener('click', () => {
-    document.dispatchEvent(new CustomEvent('maestro:drawer-open', { detail: 'left' }));
+    readerEvents.emit('maestro:drawer-open', 'left');
     dialog.showModal();
     syncModalLock();
     dialog.querySelector('[aria-current="page"]')?.scrollIntoView({ block: 'nearest' });
@@ -18,8 +19,8 @@ if (dialog && opener) {
     if (returnFocus) opener.focus({ preventScroll: true });
     returnFocus = true;
   });
-  document.addEventListener('maestro:drawer-open', event => {
-    if ((event as CustomEvent).detail === 'right' && dialog.open) { returnFocus = false; dialog.close(); }
+  readerEvents.on('maestro:drawer-open', side => {
+    if (side === 'right' && dialog.open) { returnFocus = false; dialog.close(); }
   });
 }
 export {};

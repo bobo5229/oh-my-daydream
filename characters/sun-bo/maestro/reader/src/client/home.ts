@@ -1,3 +1,4 @@
+import { readerEvents } from './events.ts';
 import { readNovelProgress } from './storage.ts';
 import { readReadingMode } from './mode-model.ts';
 
@@ -12,7 +13,7 @@ if (home) {
     if (link && chapters[0]) link.href = (document.documentElement.dataset['readingMode'] ?? readReadingMode()) === 'chronicle' ? (home!.dataset['chronicleStart'] ?? `/read/${chapters[0].id}/`) : `/read/${chapters[0].id}/`;
   }
   updateStart();
-  document.addEventListener('maestro:mode-change', updateStart);
+  readerEvents.on('maestro:mode-change', updateStart);
   if (resume && home.dataset['autoResume'] === 'true') {
     location.replace(`/read/${resume.id}/`);
   } else if (resume) {

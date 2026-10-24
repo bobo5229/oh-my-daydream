@@ -13,7 +13,6 @@ export function parseIllustrations(value: unknown, content: ReaderContent, asset
     const asset = assets.assets.find(asset => asset.id === item['assetId']);
     if (!chapter?.novel.blocks.some(block => block.id === item['after']) || !asset || placements.some(placement => placement.after === item['after'] && placement.assetId === item['assetId'])) { warn(`${item['chapterId']} 的插图锚点或资源失配／重复，原文字继续显示。`); continue; }
     placements.push({ chapterId: chapter.id, after: item['after'], assetId: asset.id });
-    if (!asset.chapterIds.includes(chapter.id)) asset.chapterIds.push(chapter.id);
   }
   return { placements, diagnostics };
 }

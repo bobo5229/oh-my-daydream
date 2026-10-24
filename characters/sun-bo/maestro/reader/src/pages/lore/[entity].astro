@@ -2,18 +2,13 @@
 import ReaderLayout from '../../layouts/ReaderLayout.astro';
 import ReaderNav from '../../components/ReaderNav.astro';
 import LoreSourceView from '../../components/LoreSourceView.astro';
-import { loadReaderContent } from '../../content/index.ts';
-import { loadLore, ENTITY_TYPES } from '../../metadata/lore.ts';
+import { loadLorePresentation } from '../../presentation.ts';
+import { ENTITY_TYPES } from '../../metadata/lore.ts';
 import type { LoreEntity, LoreSource } from '../../metadata/lore.ts';
-import { loadAssets } from '../../metadata/assets.ts';
 import type { VisualAsset } from '../../metadata/assets.ts';
-import { renderMedia } from '../../content/media.ts';
 import AssetFigure from '../../components/AssetFigure.astro';
 export async function getStaticPaths() {
-  const content = await loadReaderContent();
-  const lore = await loadLore();
-  const assets = await loadAssets(content, lore);
-  for (const source of lore.sources) source.html = await renderMedia({ type: 'root', children: source.blocks.map(block => block.node.type === 'heading' && block.node.depth === 1 ? { ...block.node, depth: 2 } : block.node) }, assets, source.file);
+  const { content, lore, assets } = await loadLorePresentation();
   const chapters = content.chapters.map(({ id, title, ordinal }) => ({ id, title, ordinal }));
   return lore.entities.map(entity => ({ params: { entity: entity.id }, props: { entity, source: lore.sources.find(source => source.id === entity.sourceId)!, chapters, assets: assets.assets.filter(asset => asset.entityIds.includes(entity.id)) } }));
 }

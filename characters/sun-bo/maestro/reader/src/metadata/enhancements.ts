@@ -18,7 +18,6 @@ export function parseEnhancements(value: unknown, content: ReaderContent, assets
       const asset = assets.assets.find(asset => asset.id === item['assetId']);
       if (!asset || (item['kind'] === 'diagram' && asset.type !== 'diagram')) { warn(`${item['id']} 的图表资源不存在或类型不符，保留原文。`); continue; }
       modules.push({ ...base, kind: item['kind'], assetId: asset.id });
-      if (!asset.interludeIds.includes(interlude.id)) asset.interludeIds.push(interlude.id);
     } else if (item['kind'] === 'timeline' || item['kind'] === 'cards') {
       const original = textOf(interlude.tree).replace(/\s/g, '');
       const items = array(item['items']);

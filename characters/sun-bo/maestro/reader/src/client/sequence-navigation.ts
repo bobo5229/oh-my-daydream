@@ -1,4 +1,5 @@
 import { readNovelProgress } from './storage.ts';
+import { readCurrentLocation } from './reading-location.ts';
 import type { ReadingMode } from './mode-model.ts';
 import type { ReadingNode } from '../metadata/reading-order.ts';
 
@@ -21,7 +22,7 @@ function chooseNovelNode(mode: ReadingMode, initial: boolean): ReadingNode | und
   const progress = readNovelProgress(allowedIds);
   let hash = '';
   try { hash = decodeURIComponent(location.hash.slice(1)); } catch { /* 无效片段忽略。 */ }
-  const anchor = article?.dataset['currentAnchor'] || (initial && hash) || (progress?.chapterId === chapterId ? progress.anchorId : undefined);
+  const anchor = readCurrentLocation(chapterId)?.anchorId || (initial && hash) || (progress?.chapterId === chapterId ? progress.anchorId : undefined);
   return nodes.find(node => anchor && node.blockIds.includes(anchor)) ?? nodes[0];
 }
 

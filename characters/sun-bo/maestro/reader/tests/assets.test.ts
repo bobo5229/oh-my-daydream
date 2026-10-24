@@ -9,7 +9,8 @@ import { assetFile, loadAssets, safeSvg } from '../src/metadata/assets.ts';
 import { decodeSource, parseDocument, textOf } from '../src/content/markdown.ts';
 import { renderMedia } from '../src/content/media.ts';
 import { parseIllustrations } from '../src/metadata/illustrations.ts';
-import type { VisualAsset } from '../src/metadata/assets.ts';
+import type { AssetIndex, VisualAsset } from '../src/metadata/assets.ts';
+import { withAssetRelations } from '../src/metadata/asset-relations.ts';
 import { parseEnhancements } from '../src/metadata/enhancements.ts';
 import { renderInterlude } from '../src/content/enhancements.ts';
 
@@ -72,4 +73,34 @@ test('S06-T01：同一源文件复用一个 URL，缺图有诊断但保留索引
     await unlink(join(root, 'assets', 'fixture.svg')); await unlink(join(root, 'data', 'assets.yaml'));
     await rmdir(join(root, 'assets')); await rmdir(join(root, 'data')); await rmdir(root);
   }
+});
+
+test('增强解析不修改冻结输入，资产关联由组装层合并且重复合并不增加条目', async () => {
+  const content = await loadReaderContent();
+  const chapter = content.chapters.find(chapter => chapter.id === 'ch03')!;
+  const interlude = content.interludes.find(interlude => interlude.id === 'interlude-02')!;
+  const asset: VisualAsset = { id: 'fixture', type: 'diagram', file: 'assets/fixture.svg', alt: '测试夹具，非作品素材', caption: '', entityIds: ['kybernetes'], chapterIds: ['ch01'], interludeIds: ['interlude-01'], available: true, src: '/media/fixture.svg', mime: 'image/svg+xml', bytes: null, sha256: null };
+  const index: AssetIndex = { assets: [asset], diagnostics: [] };
+  const freeze = (value: unknown, seen = new Set<object>()): void => {
+    if (!value || typeof value !== 'object' || seen.has(value)) return;
+    seen.add(value);
+    for (const child of Object.values(value)) freeze(child, seen);
+    Object.freeze(value);
+  };
+  freeze(content); freeze(index);
+  const before = JSON.stringify(index);
+  const placement = { chapterId: chapter.id, after: chapter.novel.blocks[0]!.id, assetId: asset.id };
+  const illustrations = parseIllustrations({ version: 1, placements: [placement, placement, { ...placement, after: 'removed' }] }, content, index);
+  const module = { id: 'fixture-diagram', interludeId: interlude.id, after: interlude.tree.children[0]!.data!.readerAnchor!, kind: 'diagram', assetId: asset.id };
+  const enhancements = parseEnhancements({ version: 1, modules: [module, { ...module, id: 'fixture-second' }, { ...module, id: 'fixture-invalid', after: 'removed' }] }, content, index);
+  assert.equal(illustrations.placements.length, 1); assert.equal(illustrations.diagnostics.length, 2);
+  assert.equal(enhancements.modules.length, 2); assert.equal(enhancements.diagnostics.length, 1);
+  assert.equal(JSON.stringify(index), before);
+  const linked = withAssetRelations(index, illustrations.placements, enhancements.modules);
+  assert.deepEqual(linked.assets[0]!.chapterIds, ['ch01', 'ch03']);
+  assert.deepEqual(linked.assets[0]!.interludeIds, ['interlude-01', 'interlude-02']);
+  assert.deepEqual(linked.assets[0]!.entityIds, ['kybernetes']);
+  assert.deepEqual(withAssetRelations(linked, illustrations.placements, enhancements.modules), linked);
+  assert.equal(JSON.stringify(index), before);
+  assert.notEqual(linked.assets[0], asset);
 });

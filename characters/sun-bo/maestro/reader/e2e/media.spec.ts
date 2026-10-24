@@ -98,3 +98,37 @@ test('S06-T05：测试图在图库复用实际渲染接口，可分类搜索并�
   await page.keyboard.press('Escape');
   await expect(page.getByLabel('搜索视觉资料')).toHaveValue('fixture');
 });
+
+test('交互重构：多层覆盖视图全部关闭后才重排资料抽屉，正文进度保留', async ({ page }) => {
+  await page.route('**/media/test-fixture.svg', route => route.fulfill({ contentType: 'image/svg+xml', body: svg }));
+  await page.goto('/read/ch03/');
+  const article = page.locator('article');
+  await expect(article).toHaveAttribute('data-current-anchor', /r-ch03/);
+  const anchor = await article.getAttribute('data-current-anchor');
+  await page.getByRole('button', { name: '打开资料抽屉' }).click();
+  const drawer = page.locator('#resources-drawer');
+  await drawer.locator('[data-stage-group="january-2022"] > summary').click();
+  await drawer.locator('[data-stage-group="january-2022"] [data-select-interlude="interlude-02"]').click();
+  await page.getByRole('button', { name: '展开档案独立阅读' }).click();
+  const expanded = page.locator('#expanded-reader');
+  await expanded.locator('[data-resource-text]:not([hidden])').evaluate(text => {
+    const button = document.createElement('button'); button.type = 'button'; button.dataset['mediaOpen'] = '/media/test-fixture.svg'; button.textContent = '打开嵌套测试图'; text.prepend(button);
+  });
+  const trigger = page.getByRole('button', { name: '打开嵌套测试图' });
+  await trigger.click();
+  await expect(page.locator('[data-media-image]')).toBeVisible();
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect(page.locator('#media-viewer')).toBeVisible();
+  await expect(drawer).toHaveAttribute('data-layout', 'side');
+  await page.keyboard.press('Escape');
+  await expect(page.locator('#media-viewer')).not.toBeVisible();
+  await expect(trigger).toBeFocused();
+  await expect(expanded).toBeVisible();
+  await expect(drawer).toHaveAttribute('data-layout', 'side');
+  await page.keyboard.press('Escape');
+  await expect(expanded).not.toBeVisible();
+  await expect(drawer).toHaveAttribute('data-layout', 'overlay');
+  await expect(page.getByRole('button', { name: '展开档案独立阅读' })).toBeFocused();
+  await drawer.getByRole('button', { name: '关闭资料抽屉' }).click();
+  await expect(article).toHaveAttribute('data-current-anchor', anchor!);
+});

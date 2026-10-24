@@ -1,5 +1,7 @@
+import { readerEvents } from './events.ts';
 import { resolveStoryStage } from './story-time.ts';
-import { outsideDialog, syncModalLock } from './dialogs.ts';
+import { hasOpenOverlay, outsideDialog, syncModalLock } from './dialogs.ts';
+import { readCurrentLocation } from './reading-location.ts';
 import type { Timeline } from '../metadata/timeline.ts';
 import { readNovelProgress } from './storage.ts';
 import type { ReadingNode } from '../metadata/reading-order.ts';
@@ -15,19 +17,19 @@ if (drawer && opener && dataNode) {
   const saved = readNovelProgress(nodes.map(node => node.chapterId));
   const bodyChapter = article?.dataset['chapterId'] ?? saved?.chapterId ?? data.chapterId;
   const bodyBlocks = nodes.find(node => node.chapterId === bodyChapter)?.blockIds ?? data.blockIds;
-  let currentStage = resolveStoryStage(data, bodyChapter, bodyBlocks, article?.dataset['currentAnchor'] ?? (saved?.chapterId === bodyChapter ? saved.anchorId : undefined));
+  let currentStage = resolveStoryStage(data, bodyChapter, bodyBlocks, readCurrentLocation(bodyChapter)?.anchorId ?? (saved?.chapterId === bodyChapter ? saved.anchorId : undefined));
   let following = true;
   let returnFocus = true;
   const wide = matchMedia('(min-width: 1360px)');
   function showDrawer(): void {
-    document.dispatchEvent(new Event('maestro:layout-before-change'));
+    readerEvents.emit('maestro:layout-before-change');
     document.documentElement.classList.toggle('has-resources', wide.matches);
     drawer!.dataset['layout'] = wide.matches ? 'side' : 'overlay';
     if (wide.matches) drawer!.show();
     else drawer!.showModal();
     syncModalLock();
     opener!.setAttribute('aria-expanded', 'true');
-    document.dispatchEvent(new Event('maestro:layout-change'));
+    readerEvents.emit('maestro:layout-change');
   }
 
   function update(): void {
@@ -40,7 +42,7 @@ if (drawer && opener && dataNode) {
       group.toggleAttribute('data-current-stage', active);
       if (following) group.open = active;
     }
-    document.dispatchEvent(new CustomEvent('maestro:story-stage-change', { detail: { stageId: currentStage?.id ?? null } }));
+    readerEvents.emit('maestro:story-stage-change', { stageId: currentStage?.id ?? null });
   }
   update();
   const tabs = [...drawer.querySelectorAll<HTMLButtonElement>('[data-resource-tab]')];
@@ -59,8 +61,7 @@ if (drawer && opener && dataNode) {
   function pause(): void { following = false; update(); }
   for (const group of groups) group.querySelector('summary')?.addEventListener('click', pause);
   drawer.querySelector('[data-resume-follow]')?.addEventListener('click', () => { following = true; update(); });
-  document.addEventListener('maestro:location-change', event => {
-    const location = (event as CustomEvent<{ chapterId: string; anchorId?: string }>).detail;
+  readerEvents.on('maestro:location-change', location => {
     if (location.chapterId !== data.chapterId) return;
     currentStage = resolveStoryStage(data, data.chapterId, data.blockIds, location.anchorId);
     update();
@@ -77,7 +78,7 @@ if (drawer && opener && dataNode) {
   }));
   opener.addEventListener('click', () => {
     if (drawer.open) { drawer.close(); return; }
-    document.dispatchEvent(new CustomEvent('maestro:drawer-open', { detail: 'right' }));
+    readerEvents.emit('maestro:drawer-open', 'right');
     showDrawer();
     update();
   });
@@ -90,15 +91,15 @@ if (drawer && opener && dataNode) {
     syncModalLock();
     if (returnFocus) opener.focus({ preventScroll: true });
     returnFocus = true;
-    document.dispatchEvent(new Event('maestro:layout-change'));
+    readerEvents.emit('maestro:layout-change');
   });
-  document.addEventListener('maestro:drawer-open', event => {
-    if ((event as CustomEvent).detail === 'left' && drawer.open) { returnFocus = false; drawer.close(); }
+  readerEvents.on('maestro:drawer-open', side => {
+    if (side === 'left' && drawer.open) { returnFocus = false; drawer.close(); }
   });
   let pendingReflow = false;
   function reflowDrawer(): void {
     if (!drawer?.open) return;
-    if (document.querySelector('#expanded-reader[open], #media-viewer[open]')) { pendingReflow = true; return; }
+    if (hasOpenOverlay()) { pendingReflow = true; return; }
     pendingReflow = false;
     const savedScroll = drawer.scrollTop;
     const focused = drawer.contains(document.activeElement) ? document.activeElement as HTMLElement : null;
@@ -108,5 +109,5 @@ if (drawer && opener && dataNode) {
     focused?.focus({ preventScroll: true });
   }
   wide.addEventListener('change', reflowDrawer);
-  document.addEventListener('maestro:overlay-close', () => { if (pendingReflow) reflowDrawer(); });
+  readerEvents.on('maestro:overlay-close', () => { if (pendingReflow) reflowDrawer(); });
 }

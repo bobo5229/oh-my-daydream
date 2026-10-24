@@ -1,3 +1,4 @@
+import { readerEvents } from './events.ts';
 import { DEFAULT_PREFERENCES, readPreferences, writePreferences } from './preferences-model.ts';
 import type { ThemePreference } from './preferences-model.ts';
 
@@ -24,11 +25,11 @@ function applyTypography(): void {
 }
 applyTypography();
 function changeTypography(fontSize: number, lineHeight: number): void {
-  document.dispatchEvent(new Event('maestro:layout-before-change'));
+  readerEvents.emit('maestro:layout-before-change');
   preferences = { ...preferences, fontSize, lineHeight };
   applyTypography();
   writePreferences(preferences);
-  document.dispatchEvent(new Event('maestro:layout-change'));
+  readerEvents.emit('maestro:layout-change');
 }
 fontSizeInput?.addEventListener('input', () => changeTypography(fontSizeInput.valueAsNumber, preferences.lineHeight));
 lineHeightInput?.addEventListener('input', () => changeTypography(preferences.fontSize, lineHeightInput.valueAsNumber));

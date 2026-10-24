@@ -1,5 +1,7 @@
+import { readerEvents } from './events.ts';
 import { readNovelProgress, writeNovelProgress } from './storage.ts';
 import type { NovelProgress } from './storage.ts';
+import { publishCurrentLocation } from './reading-location.ts';
 
 const article = document.querySelector<HTMLElement>('article.novel[data-chapter-id]');
 if (article?.dataset['chapterId']) {
@@ -41,7 +43,7 @@ if (article?.dataset['chapterId']) {
     checkpoint = capture();
     writeNovelProgress(checkpoint);
     article!.dataset['currentAnchor'] = checkpoint.anchorId ?? '';
-    document.dispatchEvent(new CustomEvent('maestro:location-change', { detail: { chapterId, anchorId: checkpoint.anchorId } }));
+    publishCurrentLocation({ chapterId, ...(checkpoint.anchorId ? { anchorId: checkpoint.anchorId } : {}) });
   }
 
   function restore(progress: NovelProgress | null): void {
@@ -92,6 +94,6 @@ if (article?.dataset['chapterId']) {
   addEventListener('pagehide', save);
   addEventListener('pageshow', event => { if (event.persisted) save(); });
   document.addEventListener('visibilitychange', () => { if (document.hidden) save(); });
-  document.addEventListener('maestro:layout-before-change', () => { save(); });
-  document.addEventListener('maestro:layout-change', settleLayout);
+  readerEvents.on('maestro:layout-before-change', () => { save(); });
+  readerEvents.on('maestro:layout-change', settleLayout);
 }
