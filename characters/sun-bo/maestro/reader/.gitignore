@@ -1,9 +1,0 @@
-node_modules/
-dist/
-.astro/
-.cache/
-.sites-runtime/
-test-results/
-playwright-report/
-.impeccable/review/
-.impeccable/mocks/

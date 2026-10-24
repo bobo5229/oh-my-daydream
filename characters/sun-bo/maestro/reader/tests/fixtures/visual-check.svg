@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000">
-  <rect width="1600" height="1000" fill="#f2f3ef"/>
-  <path d="M120 180v660h1360" fill="none" stroke="#424c42" stroke-width="4"/>
-  <path d="m160 740 260-100 240 30 300-330 420-90" fill="none" stroke="#4f765b" stroke-width="10"/>
-  <text x="120" y="120" font-family="sans-serif" font-size="48" fill="#263a2c">TEST FIXTURE · NOT STORY ARTWORK</text>
-  <text x="120" y="930" font-family="sans-serif" font-size="32" fill="#263a2c">1600 × 1000 · Zoom and pan validation</text>
-</svg>

@@ -1,6 +1,0 @@
----
-import type { LoreSource } from '../metadata/lore.ts';
-interface Props { source: LoreSource; hidden?: boolean }
-const { source, hidden = false } = Astro.props;
----
-<div class="novel resource-prose lore-source" data-resource-text data-lore-source={source.id} hidden={hidden}><Fragment set:html={source.html} /></div>
